@@ -14,3 +14,6 @@ The doubly linked list data structure. To implement the DLL we modified our Node
 
 ## queue.py
 The queue data structure. We decided to use a composition of a Doubly linked list as a container for the queue. Since a queue primarily cares about adding stuff at the end and grabbing stuff from the front all of which our DLL already supports. So each method in queue is just calling an already existing method or property the container has. Makes life a lot easier.
+
+## parenthetic.py
+A simple single function script which has a function that takes a unicode string and deterimes if all parenthetics in it are properly ordered and closed. At first it seemed like the best option was to add everything to a queue to check out but I found it was a little easier just to do all the checking while going through the characters of the string.
