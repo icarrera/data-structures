@@ -14,3 +14,6 @@ The doubly linked list data structure. To implement the DLL we modified our Node
 
 ## queue.py
 The queue data structure. We decided to use a composition of a Doubly linked list as a container for the queue. Since a queue primarily cares about adding stuff at the end and grabbing stuff from the front all of which our DLL already supports. So each method in queue is just calling an already existing method or property the container has. Makes life a lot easier.
+
+## proper_parenthetics.py
+This module has a function proper_parens that tests if the parentheses within a unicode string are open, balanced, or broken. If open, the function returns "1". If balanced, the function returns "0". If broken, the function returns "1".
