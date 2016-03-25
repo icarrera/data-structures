@@ -16,6 +16,19 @@ def test_graph():
     test_graph._graph_content = test_dict
     return test_graph
 
+@pytest.fixture()
+def test_shortest_route():
+    route_dict = {
+        1: {2: 8, 3: 7},
+        2: {10: 11},
+        3: {2: 13, 10: 3, 5: 1},
+        10: {},
+        5: {}
+    }
+    test_route = SimpleGraph()
+    test_route._graph_content = route_dict
+    return test_route
+
 
 def test_init():
     test_graph = SimpleGraph()
@@ -73,7 +86,7 @@ def test_has_node_false(test_graph):
 
 
 def test_neighbors(test_graph):
-    assert test_graph.neighbors(2) == [1, 3]
+    assert test_graph.neighbors(2) == [1]
 
 
 def test_bad_neighbors(test_graph):
@@ -110,5 +123,5 @@ def test_bfs_non_cyclic(test_graph):
     assert test_graph.breadth_first_traversal(2) == [2, 1, 3, 10]
 
 
-def test_find_weight(test_graph):
-    pass
+def test_dijkstra_route(test_shortest_route):
+    assert test_shortest_route.dijkstra_route(1, 10) == [1, 3, 10]
