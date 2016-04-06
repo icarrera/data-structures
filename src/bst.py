@@ -79,7 +79,7 @@ class BST(object):
                 self.depth_left = depth
             elif side == 'right' and depth > self.depth_right:
                 self.depth_right = depth
-
+        # set will add val to node_set if not present already.
         self.node_set.add(val)
 
     def contains(self, val):
