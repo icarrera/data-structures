@@ -48,6 +48,7 @@ class BST(object):
             parent = cursor
             # while cursor is not none...
             while cursor is not None:
+                parent = cursor
                 # check if value is less than cursor
                 if val < cursor.val:
                     # if val less than cursor val, set cursor to parent._left
@@ -59,7 +60,7 @@ class BST(object):
             # create new node object, pass parent to Node constructor
             node = Node(val, parent)
             # if val less than cursor, set parent._left to node
-            if val < cursor.val:
+            if val < parent.val:
                 parent._left = node
             # if val greater than cursor, set parent._right to node
             else:

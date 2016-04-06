@@ -10,9 +10,12 @@ def bst_empty():
 
 
 @pytest.fixture()
-def bst(test_bst_empty):
+def bst():
+    from bst import BST
+    bst = BST()
     for val in TEST_DATA:
         bst.insert(val)
+    return bst
 
 
 def test_Node_setting_left():
@@ -51,9 +54,11 @@ def test_bst_insert_empty(bst_empty):
     assert bst_empty.contains(42)
 
 
-def test_bst_insert(bst_empty):
-    pass
+def test_bst_insert(bst):
+    bst.insert(42)
+    assert bst.contains(42)
 
 
 def test_bst_insert_already_there(bst):
+    bst.insert(4)
     pass
