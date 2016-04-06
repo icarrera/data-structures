@@ -72,9 +72,11 @@ class BST(object):
             # if val less than cursor, set parent._left to node
             if val < parent.val:
                 parent._left = node
+                depth += 1
             # if val greater than cursor, set parent._right to node
             else:
                 parent._right = node
+                depth += 1
             if side == 'left' and depth > self.depth_left:
                 self.depth_left = depth
             elif side == 'right' and depth > self.depth_right:

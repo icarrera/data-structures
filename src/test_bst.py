@@ -60,15 +60,15 @@ def test_bst_insert_empty(bst_empty):
 def test_bst_insert(bst):
     bst.insert(42)
     assert bst.contains(42)
-    assert bst.depth_left == 1
-    assert bst.depth_right == 3
+    assert bst.depth_left == 2
+    assert bst.depth_right == 4
 
 
 def test_bst_insert_already_there(bst):
     bst.insert(4)
     assert bst.contains(4)
-    assert bst.depth_left == 1
-    assert bst.depth_right == 2
+    assert bst.depth_left == 2
+    assert bst.depth_right == 3
 
 
 def test_contains(bst):
@@ -88,7 +88,7 @@ def test_size_empty(bst_empty):
 
 
 def test_depth(bst):
-    assert bst.depth() == 2
+    assert bst.depth() == 3
 
 
 def test_depth_empty(bst_empty):
