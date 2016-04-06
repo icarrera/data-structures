@@ -38,45 +38,38 @@ class BST(object):
         """Insert node into BST."""
         # check if BST is empty
         if not self._head:
-            # if empty, set head to new Node instance
             self._head = Node(val)
-            # empty BST, set depth_L/R to 1 (one level present)
+            # set depth_L/R to 1 (one level present)
             self.depth_left = 1
             self.depth_right = 1
         # if not empty BST, check if val is in node_set
         elif val not in self.node_set:
-            # set cursor to BST head node
             cursor = self._head
-            # set parent node as current cursor (used to set node's parent)
             parent = cursor
             side = None
             depth = 0
-            # while cursor is not none...
-            while cursor is not None:
+            while cursor:
                 parent = cursor
                 depth += 1
-                # check if value is less than cursor
                 if val < cursor.val:
-                    # if val less than cursor val, set cursor to parent._left
                     cursor = parent._left
                     if side is None:
                         side = 'left'
-                # if val was greater than cursor
                 else:
-                    # if val greater than cursor val, set cursor to parent._right
                     cursor = parent._right
                     if side is None:
                         side = 'right'
             # create new node object, pass parent to Node constructor
             node = Node(val, parent)
-            # if val less than cursor, set parent._left to node
+            # If this is the first node connected to a parent increase depth
+            if not parent._left and not parent._right:
+                depth += 1
+            # Connect the new node to the parent based on value.
             if val < parent.val:
                 parent._left = node
-                depth += 1
-            # if val greater than cursor, set parent._right to node
             else:
                 parent._right = node
-                depth += 1
+            # Change the depth if necessary
             if side == 'left' and depth > self.depth_left:
                 self.depth_left = depth
             elif side == 'right' and depth > self.depth_right:
