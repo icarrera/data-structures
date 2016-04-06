@@ -1,20 +1,18 @@
 import pytest
 
+TEST_DATA = [1, 2, 3, 4]
+
 
 @pytest.fixture()
-def test_bst_empty():
+def bst_empty():
     from bst import BST
     return BST()
 
 
 @pytest.fixture()
-def test_bst():
-    from bst import BST
-    test_bst = BST()
-    test_bst.insert(2)
-    test_bst.insert(1)
-    test_bst.insert(3)
-    test_bst.insert(4)
+def bst(test_bst_empty):
+    for val in TEST_DATA:
+        bst.insert(val)
 
 
 def test_Node_setting_left():
@@ -38,26 +36,24 @@ def test_Node_parent():
     node1 = Node()
     node2 = Node()
     node1.right = node2
-    assert node2.has_parent  # is true
+    assert node2.parent
 
 
-def test_bst_init():
+def test_bst_init(bst_empty):
     from bst import BST
-    bst = BST()
-    assert isinstance(bst, BST)
+    # bst = BST()
+    bst_empty
+    assert isinstance(bst_empty, BST)
 
 
-def test_bst_insert_empty(test_bst_empty):
-    test_bst_empty.insert(42)
-    assert test_bst_empty.contains(42)
+def test_bst_insert_empty(bst_empty):
+    bst_empty.insert(42)
+    assert bst_empty.contains(42)
 
 
-def test_bst_insert():
+def test_bst_insert(bst_empty):
     pass
 
 
-def test_bst_insert_already_there():
+def test_bst_insert_already_there(bst):
     pass
-
-
-def
