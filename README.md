@@ -32,3 +32,6 @@ Continuation of the Graph data structure. We added Breadth-first Search and Dept
 
 ## weighted edges
 Continuation of the Graph data structure. We added weighted edges to our Graph data structure and adjusted our methods to work with weighted edges. Our graph contents are still in a dictionary, with some modifications. Each key still refers to a node but now that node's value is a list of dictionaries. Each inner-dictionary has the pointed-to node as a key. The pointed-to node's value is the weighted-edge. 
+
+## bst.py
+The Binary Search Tree. Currently can append nodes and traverse the tree through a variaty of ways. The tree is a combination of many nodes each with a left and right property. Adding to the node is dependent of the values of the node and which is greater than the other. Traversal is done through recursive generators mostly except for breadth first which uses a generator with a deque counter keeping track of the proper order to return node values.
