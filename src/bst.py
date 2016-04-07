@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Node(object):
     def __init__(self, val=None, parent=None):
         """Init method for Node Class."""
@@ -24,9 +27,35 @@ class Node(object):
         self._right = node
         node.parent = self
 
+    def in_order(self):
+        if self._left:
+            for val in self._left.in_order():
+                yield val
+        yield self.val
+        if self._right:
+            for val in self._right.in_order():
+                yield val
+
+    def pre_order(self):
+        yield self.val
+        if self._left:
+            for val in self._left.in_order():
+                yield val
+        if self._right:
+            for val in self._right.in_order():
+                yield val
+
+    def post_order(self):
+        if self._left:
+            for val in self._left.in_order():
+                yield val
+        if self._right:
+            for val in self._right.in_order():
+                yield val
+        yield self.val
+
 
 class BST(object):
-
     def __init__(self):
         """Init method for Binary Search Tree."""
         self.node_set = set()
@@ -52,23 +81,23 @@ class BST(object):
                 parent = cursor
                 depth += 1
                 if val < cursor.val:
-                    cursor = parent._left
-                    if side is None:
+                    cursor = parent.left
+                    if not side:
                         side = 'left'
                 else:
-                    cursor = parent._right
-                    if side is None:
+                    cursor = parent.right
+                    if not side:
                         side = 'right'
             # create new node object, pass parent to Node constructor
             node = Node(val, parent)
             # If this is the first node connected to a parent increase depth
-            if not parent._left and not parent._right:
+            if not parent.left and not parent.right:
                 depth += 1
             # Connect the new node to the parent based on value.
             if val < parent.val:
-                parent._left = node
+                parent.left = node
             else:
-                parent._right = node
+                parent.right = node
             # Change the depth if necessary
             if side == 'left' and depth > self.depth_left:
                 self.depth_left = depth
@@ -92,3 +121,40 @@ class BST(object):
     def balance(self):
         """Return diffence of depth_left and depth_right."""
         return self.depth_left - self.depth_right
+
+    def in_order(self):
+        """Invoke in_order traversal on head node."""
+        try:
+            return self._head.in_order()
+        except AttributeError:
+            return []
+
+    def pre_order(self):
+        """Invoke pre_order traversal on head node."""
+        try:
+            return self._head.pre_order()
+        except AttributeError:
+            return []
+
+    def post_order(self):
+        """Invoke post_order traversal on head node."""
+        try:
+            return self._head.post_order()
+        except AttributeError:
+            return []
+
+
+    def breadth_first(self):
+        """Perform breadth first traversal of BST."""
+        if self._head:
+            queue = deque()
+            queue.append(self._head)
+            while len(queue):
+                popped = queue.popleft()
+                if popped.left:
+                    queue.append(popped.left)
+                if popped.right:
+                    queue.append(popped.right)
+                yield popped.val
+        else:
+            return []

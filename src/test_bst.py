@@ -101,3 +101,51 @@ def test_balance(bst):
 
 def test_balance_empty(bst_empty):
     assert bst_empty.balance() == 0
+
+
+def test_in_order(bst):
+    output = bst.in_order()
+    lst = [next(output) for x in range(bst.size())]
+    assert lst == [1, 2, 3, 4]
+
+
+def test_in_order_empty(bst_empty):
+    output = bst_empty.in_order()
+    lst = [next(output) for x in range(bst_empty.size())]
+    assert lst == []
+
+
+def test_pre_order(bst):
+    output = bst.pre_order()
+    lst = [next(output) for x in range(bst.size())]
+    assert lst == TEST_DATA
+
+
+def test_pre_order_empty(bst_empty):
+    output = bst_empty.pre_order()
+    lst = [next(output) for x in range(bst_empty.size())]
+    assert lst == []
+
+
+def test_post_order(bst):
+    output = bst.post_order()
+    lst = [next(output) for x in range(bst.size())]
+    assert lst == [1, 3, 4, 2]
+
+
+def test_post_order_empty(bst_empty):
+    output = bst_empty.post_order()
+    lst = [next(output) for x in range(bst_empty.size())]
+    assert lst == []
+
+
+def test_breadth_first(bst):
+    output = bst.breadth_first()
+    lst = [next(output) for x in range(bst.size())]
+    assert lst == [2, 1, 3, 4]
+
+
+def test_breadth_first_empty(bst_empty):
+    output = bst_empty.breadth_first()
+    lst = [next(output) for x in range(bst_empty.size())]
+    assert lst == []
