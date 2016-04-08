@@ -143,7 +143,6 @@ class BST(object):
         except AttributeError:
             return []
 
-
     def breadth_first(self):
         """Perform breadth first traversal of BST."""
         if self._head:
@@ -156,5 +155,3 @@ class BST(object):
                 if popped.right:
                     queue.append(popped.right)
                 yield popped.val
-        else:
-            return []
