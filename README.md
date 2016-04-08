@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/KyleRichVA/data-structures.svg?branch=master)](https://travis-ci.org/KyleRichVA/data-structures)
 # data-structures
 Code Fellows Python 401 Data Structures assignment
 Created by Kyle Richardson and Iris Carrera
