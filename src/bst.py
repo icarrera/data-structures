@@ -62,6 +62,32 @@ class Node(object):
                 if right_search.val == val:
                     return right_search
 
+    def _replace(self):
+        """Check each child stack to find the val should be replaced by."""
+        if (not self.left and not self.right):
+            # if the node is a left end the recursion and return itself.
+            rtn_val = self.val
+            self._disconect()
+            return rtn_val
+        left_depth, right_depth = self.left.depth, self.right.depth
+        if left_depth > right_depth:
+            rtn_val = self.val
+            self.val = self.left._replace()
+            return rtn_val
+        elif right_depth > left_depth:
+            rtn_val = self.val
+            self.val = self.right._replace()
+            return rtn_val
+        else:
+            if self._parent.left == self:
+                rtn_val = self.val
+                self.val = self.left._replace()
+                return rtn_val
+            else:
+                rtn_val = self.val
+                self.val = self.right._replace()
+                return rtn_val
+
     def in_order(self):
         if self._left:
             for val in self._left.in_order():
@@ -199,26 +225,30 @@ class BST(object):
     def delete(self, val):
         """Remove Val from the list if present."""
         if self.contains(val):
+            deleted = self._search(val)
             if self.depth() == 1:  # One node in tree
                 self._head = None
-
-            deleted = self._search(val)
+                self.node_set.remove(val)
             # node is a leaf (no children)
-            if (not deleted.left and not deleted.right):
+            elif (not deleted.left and not deleted.right):
                 deleted._disconect()
                 self.node_set.remove(val)
             # node has one child
             elif ((deleted.left and not deleted.right) or
                   (deleted.right and not deleted.left)):
-                try:
-                    deleted.val = deleted.left.val
-                    deleted.left._disconect()
-                    self.node_set.remove(val)
-                except AttributeError:
-                    pass
-                try:
-                    deleted.val = deleted.right.val
-                    deleted.right._disconect()
-                    self.node_set.remove(val)
-                except AttributeError:
-                    pass
+                if deleted._parent.left == deleted:
+                    try:
+                        deleted._parent.left = deleted.left
+                        self.node_set.remove(val)
+                    except AttributeError:
+                        pass
+                else:
+                    try:
+                        deleted._parent.right = deleted.right
+                        self.node_set.remove(val)
+                    except AttributeError:
+                        pass
+            # node has two childs
+            else:
+                deleted._replace()
+                self.node_set.remove(val)

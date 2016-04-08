@@ -172,3 +172,45 @@ def test_delete_leaf(bst):
     bst.delete(4)
     assert not bst.contains(4)
     assert not bst._search(4)
+
+
+def test_delete_node_1_child(bst):
+    bst.delete(3)
+    assert not bst._search(3)
+    assert not bst.contains(3)
+    assert bst._search(4)
+
+
+def test_delete_node_2_child(bst):
+    bst.insert(2.5)
+    bst.delete(3)
+    assert not bst._search(3)
+    assert not bst.contains(3)
+    assert bst._search(2.5)
+    assert bst._search(4)
+    assert bst._head.right.val == 4
+
+
+def test_delete_node_crazy(bst):
+    bst.insert(2.5)
+    bst.insert(2.25)
+    bst.insert(2.75)
+    bst.delete(3)
+    assert not bst._search(3)
+    assert not bst.contains(3)
+    assert bst._head.right.val == 2.5
+    assert bst._head.right.right.val == 4
+    assert bst._head.right.left.val == 2.25
+
+
+def test_delete_not_there(bst):
+    assert not bst.delete(42)
+
+
+def test_delete_one_item():
+    from bst import BST
+    bst = BST()
+    bst.insert(42)
+    bst.delete(42)
+    assert not bst._search(42)
+    assert not bst.contains(42)
