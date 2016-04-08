@@ -39,6 +39,29 @@ class Node(object):
             rd = 0
         return max(ld, rd) + 1
 
+    def disconect(self):
+        """Node drops its parent and its parent drops this node."""
+        if self._parent:
+            if self._parent.left == self:
+                self._parent.left = None
+            else:
+                self._parent.right = None
+
+    def _search(self, val):
+        """Check itself and children if it has val return itself if true."""
+        if self.val == val:
+            return self
+        if self.left:
+            left_search = self.left._search(val)
+            if left_search:
+                if left_search.val == val:
+                    return left_search
+        if self.right:
+            right_search = self.right._search(val)
+            if right_search:
+                if right_search.val == val:
+                    return right_search
+
     def in_order(self):
         if self._left:
             for val in self._left.in_order():
@@ -134,6 +157,11 @@ class BST(object):
         """Return diffence of depth_left and depth_right."""
         return self.depth_left - self.depth_right
 
+    def _search(self, val):
+        """Return a Node with val if it exists"""
+        if self.contains(val):
+            return self._head._search(val)
+
     def in_order(self):
         """Invoke in_order traversal on head node."""
         try:
@@ -167,3 +195,12 @@ class BST(object):
                 if popped.right:
                     queue.append(popped.right)
                 yield popped.val
+
+    def delete(self, val):
+        """Remove Val from the list if present."""
+        if self.contains(val):
+            if self.depth() == 1:  # One node in tree
+                self._head = None
+
+            elif True:
+                pass

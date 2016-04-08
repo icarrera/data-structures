@@ -162,3 +162,12 @@ def test_breadth_first_empty(bst_empty):
     output = bst_empty.breadth_first()
     lst = [next(output) for x in range(bst_empty.size())]
     assert lst == []
+
+
+def test_search(bst):
+    assert bst._search(3).val == 3
+
+
+def test_delete_leaf(bst):
+    bst.delete(4)
+    assert not bst.contains(4)
