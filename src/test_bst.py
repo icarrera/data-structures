@@ -42,6 +42,19 @@ def test_Node_parent():
     assert node2.parent
 
 
+def test_Node_depth():
+    from bst import Node
+    node1 = Node()
+    node2 = Node()
+    node3 = Node()
+    node4 = Node()
+    node1.left = node2
+    node1.right = node3
+    node3.right = node4
+    results = [node1.depth, node2.depth, node3.depth]
+    assert results == [3, 1, 2]
+
+
 def test_bst_init(bst_empty):
     from bst import BST
     bst_empty

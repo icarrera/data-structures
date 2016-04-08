@@ -27,6 +27,18 @@ class Node(object):
         self._right = node
         node.parent = self
 
+    @property
+    def depth(self):
+        try:
+            ld = self.left.depth
+        except AttributeError:
+            ld = 0
+        try:
+            rd = self.right.depth
+        except AttributeError:
+            rd = 0
+        return max(ld, rd) + 1
+
     def in_order(self):
         if self._left:
             for val in self._left.in_order():
