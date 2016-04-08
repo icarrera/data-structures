@@ -39,13 +39,13 @@ class Node(object):
             rd = 0
         return max(ld, rd) + 1
 
-    def disconect(self):
+    def _disconect(self):
         """Node drops its parent and its parent drops this node."""
         if self._parent:
             if self._parent.left == self:
-                self._parent.left = None
+                self._parent._left = None
             else:
-                self._parent.right = None
+                self._parent._right = None
 
     def _search(self, val):
         """Check itself and children if it has val return itself if true."""
@@ -202,5 +202,23 @@ class BST(object):
             if self.depth() == 1:  # One node in tree
                 self._head = None
 
-            elif True:
-                pass
+            deleted = self._search(val)
+            # node is a leaf (no children)
+            if (not deleted.left and not deleted.right):
+                deleted._disconect()
+                self.node_set.remove(val)
+            # node has one child
+            elif ((deleted.left and not deleted.right) or
+                  (deleted.right and not deleted.left)):
+                try:
+                    deleted.val = deleted.left.val
+                    deleted.left._disconect()
+                    self.node_set.remove(val)
+                except AttributeError:
+                    pass
+                try:
+                    deleted.val = deleted.right.val
+                    deleted.right._disconect()
+                    self.node_set.remove(val)
+                except AttributeError:
+                    pass

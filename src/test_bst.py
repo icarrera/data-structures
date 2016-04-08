@@ -171,3 +171,4 @@ def test_search(bst):
 def test_delete_leaf(bst):
     bst.delete(4)
     assert not bst.contains(4)
+    assert not bst._search(4)
