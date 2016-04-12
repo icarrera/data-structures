@@ -79,7 +79,7 @@ class Node(object):
             self.val = self.right._replace()
             return rtn_val
         else:
-            if self._parent.left == self:
+            if self._parent and self._parent.left == self:
                 rtn_val = self.val
                 self.val = self.left._replace()
                 return rtn_val
