@@ -1,6 +1,7 @@
 import pytest
 
-TEST_DATA = [2, 1, 3, 4]
+TEST_DATA_R = [2, 1, 3, 4]
+TEST_DATA_L = [3, 2, 4, 1]
 
 
 @pytest.fixture()
@@ -13,7 +14,16 @@ def bst_empty():
 def bst():
     from bst import BST
     bst = BST()
-    for val in TEST_DATA:
+    for val in TEST_DATA_R:
+        bst.insert(val)
+    return bst
+
+
+@pytest.fixture()
+def bst_l():
+    from bst import BST
+    bst = BST()
+    for val in TEST_DATA_L:
         bst.insert(val)
     return bst
 
@@ -93,7 +103,7 @@ def test_contains_empty(bst_empty):
 
 
 def test_size(bst):
-    assert bst.size() == len(TEST_DATA)
+    assert bst.size() == len(TEST_DATA_R)
 
 
 def test_size_empty(bst_empty):
@@ -131,7 +141,7 @@ def test_in_order_empty(bst_empty):
 def test_pre_order(bst):
     output = bst.pre_order()
     lst = [next(output) for x in range(bst.size())]
-    assert lst == TEST_DATA
+    assert lst == TEST_DATA_R
 
 
 def test_pre_order_empty(bst_empty):
@@ -192,6 +202,7 @@ def test_delete_node_2_child(bst):
 
 
 def test_delete_node_crazy(bst):
+    import pdb; pdb.set_trace()
     bst.insert(2.5)
     bst.insert(2.25)
     bst.insert(2.75)
@@ -214,3 +225,53 @@ def test_delete_one_item():
     bst.delete(42)
     assert not bst._search(42)
     assert not bst.contains(42)
+
+
+def test_rotate_right():
+    from bst import Node
+    node1 = Node()
+    node2 = Node()
+    node2.left = node1
+    node1.rotate_right()
+    assert node1.right == node2
+    assert not node2.left
+
+
+def test_rotate_left():
+    from bst import Node
+    node1 = Node()
+    node2 = Node()
+    node2.right = node1
+    node1.rotate_right()
+    assert node1.right == node2
+    assert not node2.left
+
+
+def test_balancer_left_left(bst_l):
+    bst_l.insert(0.5)
+    # bst_l.balancer()
+    assert bst_l._head.left.val == 1
+
+
+def test_balancer_left_right(bst_l):
+    bst_l.insert(1.5)
+    # bst_l.balancer()
+    assert bst_l._head.left.val == 1
+
+
+def test_balancer_right_right(bst):
+    bst.insert(5)
+    # bst.balancer()
+    assert bst._head.right.val == 4
+
+
+def test_balancer_right_left(bst):
+    bst.insert(3.5)
+    # bst.balancer()
+    assert bst._head.right.val == 4
+
+
+def test_balancer_right_left_no_rot(bst):
+    bst.insert(1.5)
+    # bst.balancer()
+    assert bst._head.left.val == 1

@@ -16,7 +16,9 @@ class Node(object):
     @left.setter
     def left(self, node):
         self._left = node
-        node.parent = self
+        if node:
+            node.parent = self
+
 
     @property
     def right(self):
@@ -25,7 +27,8 @@ class Node(object):
     @right.setter
     def right(self, node):
         self._right = node
-        node.parent = self
+        if node:
+            node.parent = self
 
     @property
     def depth(self):
@@ -115,6 +118,14 @@ class Node(object):
                 yield val
         yield self.val
 
+    def rotate_right(self):
+        self.parent.left = self.right
+        self.right = self.parent
+
+    def rotate_left(self):
+        self.parent.right = self.left
+        self.left = self.parent
+
 
 class BST(object):
     def __init__(self):
@@ -166,6 +177,7 @@ class BST(object):
                 self.depth_right = depth
         # set will add val to node_set if not present already.
         self.node_set.add(val)
+        self.balancer()
 
     def contains(self, val):
         """Return true if node value present in tree."""
@@ -181,7 +193,10 @@ class BST(object):
 
     def balance(self):
         """Return diffence of depth_left and depth_right."""
-        return self.depth_left - self.depth_right
+        try:
+            return getattr(self._head.left, 'depth', 0) - getattr(self._head.right, 'depth', 0)
+        except AttributeError:
+            return 0
 
     def _search(self, val):
         """Return a Node with val if it exists"""
@@ -252,3 +267,46 @@ class BST(object):
             else:
                 deleted._replace()
                 self.node_set.remove(val)
+        self.balancer()
+
+    def balancer(self):
+        """Balancer function to ensure a tree remains balanced."""
+        if abs(self.balance()) > 1:
+            rotate_node = self._head
+            L = 'L'
+            R = 'R'
+            path = []
+            while len(path) + 2 < self.depth():     # Len(path) + 2 arives at the lowest parent node in the tree.
+                """If tree is unbalanced, iterate through path to most unbalanced parent."""
+                if getattr(rotate_node.left, 'depth', 0) > getattr(rotate_node.right, 'depth', 0):
+                    rotate_node = rotate_node.left
+                    path.append(L)
+                else:
+                    rotate_node = rotate_node.right
+                    path.append(R)
+            if path[-1] == path[-2]:
+                """Actions to take if left-Left or right-right path (single rotation)."""
+                if path[-1] == L:
+                    """Action to take if last step was left (right rotation)"""
+                    new_parent = rotate_node.parent.parent
+                    rotate_node.rotate_right()
+                    new_parent.left = rotate_node
+                else:
+                    """Action to take if last step was right (left rotation)"""
+                    new_parent = rotate_node.parent.parent
+                    rotate_node.rotate_left()
+                    new_parent.right = rotate_node
+            else:
+                """Actions to take if left-right or right-left path (double rotation)."""
+                if path[-1] == L:
+                    """Action to take if last step was left (right rotation followed by left rotation)"""
+                    new_parent = rotate_node.parent.parent
+                    rotate_node.rotate_right()
+                    rotate_node.parent.rotate_left()
+                    new_parent.left = rotate_node
+                else:
+                    """Action to take if last step was right (left rotation followed by right rotation)"""
+                    new_parent = rotate_node.parent.parent
+                    rotate_node.rotate_left()
+                    rotate_node.parent.rotate_right()
+                    new_parent.right = rotate_node
