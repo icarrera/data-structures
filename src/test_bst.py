@@ -202,7 +202,6 @@ def test_delete_node_2_child(bst):
 
 
 def test_delete_node_crazy(bst):
-    import pdb; pdb.set_trace()
     bst.insert(2.5)
     bst.insert(2.25)
     bst.insert(2.75)
